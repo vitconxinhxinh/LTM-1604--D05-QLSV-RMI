@@ -4,7 +4,7 @@
     </a>
 </h2>
 <h2 align="center">
-   NETWORK PROGRAMMING
+   QUẢN LÝ SINH VIÊN BẰNG RMI
 </h2>
 <div align="center">
     <p align="center">
