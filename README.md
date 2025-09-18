@@ -19,7 +19,7 @@
 
 </div>
 
-## 1. 📖 Giới thiệu Ứng dụng
+## 📖 1. Giới thiệu Ứng dụng
 
 Ứng dụng **Quản lý Sinh viên bằng RMI** là một hệ thống phần mềm cho phép quản lý thông tin sinh viên một cách tập trung và hiệu quả thông qua kiến trúc phân tán sử dụng Java RMI (Remote Method Invocation). Hệ thống bao gồm một máy chủ (Server) cung cấp các dịch vụ quản lý sinh viên và một máy khách (Client) với giao diện đồ họa (GUI) giúp người dùng tương tác trực quan.
 
@@ -33,7 +33,7 @@
 - 💾 Lưu trữ tập trung - Dữ liệu được lưu trữ trong cơ sở dữ liệu Oracle
  
 
-## 2. 🛠️ Công nghệ sử dụng
+## 🛠️ 2. Công nghệ sử dụng
 
 - **💻 Ngôn ngữ lập trình:** Java
 - **🌐 Giao thức phân tán:** Java RMI (Remote Method Invocation)
@@ -53,7 +53,7 @@
 ### 🔍 Tìm kiếm sinh viên
 <img src="docs/timkiem.png" alt="" width="700"/>
 
-## 3. 📥 Các bước cài đặt
+## 📥 3. Các bước cài đặt
 
 ### ⚙️ Yêu cầu hệ thống:
 - Hệ điều hành: Windows 10/11, macOS, Linux
@@ -66,7 +66,7 @@
 
 - Ổ đĩa trống: Tối thiểu 2GB
 
-### 4. 🔧 Cài đặt chi tiết:
+### 🔧 4. Cài đặt chi tiết:
 
 #### Bước 1: Cài đặt Java JDK
 - Kiểm tra phiên bản Java:  
@@ -102,7 +102,7 @@ String password = "your_password";
 2. Khởi động Client:  
 - java Client.StudentManagementGUI
 
-## 5. 📞Liên hệ
+## 📞 5. Liên hệ
 
 Nếu có bất kỳ thắc mắc hay góp ý nào, vui lòng liên hệ:
 
