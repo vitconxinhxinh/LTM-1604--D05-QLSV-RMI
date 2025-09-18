@@ -48,7 +48,7 @@
 <img src="docs/giaodien.png" alt="" width="700"/>
 
 ### ➕ Thêm sinh viên mới
-<img src="docs/themsinhvien.png" alt="" width="700"/>
+<img src="docs/themsinhvien.png" alt="" width="500"/>
 
 ### 🔍 Tìm kiếm sinh viên
 <img src="docs/timkiem.png" alt="" width="700"/>
@@ -82,25 +82,40 @@
 3. Thiết lập mật khẩu cho system user
 
 #### Bước 3: Clone mã nguồn
-- git clone https://github.com/your-repo/student-management-rmi.git  
-- cd student-management-rmi
-
+ ```bash
+git clone https://github.com/your-repo/student-management-rmi.git  
+```
+```bash
+cd student-management-rmi
+```
 #### Bước 4: Cấu hình cơ sở dữ liệu
 1. Kết nối đến Oracle bằng SQLPlus
 2. Chạy script tạo bảng
 
 #### Bước 5: Cấu hình kết nối database
 - Chỉnh sửa file DBConnection.java:  
-String url = "jdbc:oracle:thin:@localhost:1521:xe";  
-String user = "system";  
+ ```bash
+String url = "jdbc:oracle:thin:@localhost:1521:xe"; 
+``` 
+```bash
+String user = "system"; 
+```
+ ```bash 
 String password = "your_password";  
+```
 
 #### Bước 6: Chạy ứng dụng
 1. Khởi động Server:  
-- cd src
-- java Server.Server
+```bash
+cd src
+```
+```bash
+java Server.Server
+```
 2. Khởi động Client:  
-- java Client.StudentManagementGUI
+```bash
+java Client.StudentManagementGUI
+```
 
 ## 📞 5. Liên hệ
 
