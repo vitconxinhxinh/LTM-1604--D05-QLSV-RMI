@@ -80,7 +80,7 @@ public class StudentManagementGUI extends JFrame {
         tfPhone = new JTextField();
 
         addFormRow(form, g, row++, "ID:", tfId);
-        addFormRow(form, g, row++, "MSSV:", tfMssv);
+        addFormRow(form, g, row++, "MSSV (auto):", tfMssv);
         addFormRow(form, g, row++, "Họ và tên:", tfName);
         addFormRow(form, g, row++, "Ngày sinh (yyyy-MM-dd):", tfBirth);
         addFormRow(form, g, row++, "Lớp:", cbClass);

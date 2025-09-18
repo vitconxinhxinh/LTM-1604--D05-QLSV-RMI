@@ -108,7 +108,7 @@ Nếu có bất kỳ thắc mắc hay góp ý nào, vui lòng liên hệ:
 
 - **📍 Địa chỉ:** Hà Đông, Hà Nội  
 - **📧 Email:** tavietanh101004@gmail.com 
-- **📞 Điện thoại: ** 0814206285
+- **📞 Điện thoại:** 0814206285
 
 ---
 
