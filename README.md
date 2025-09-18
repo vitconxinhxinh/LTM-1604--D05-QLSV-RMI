@@ -93,6 +93,37 @@ cd student-management-rmi
 #### Bước 4: Cấu hình cơ sở dữ liệu
 1. Kết nối đến Oracle bằng SQLPlus
 2. Chạy script tạo bảng
+- Tạo bảng class
+```bash
+CREATE TABLE class (
+    class_id NUMBER PRIMARY KEY,
+    class_name VARCHAR2(100) NOT NULL
+);
+```
+- Tạo bảng address
+```bash
+CREATE TABLE address (
+    address_id NUMBER PRIMARY KEY,
+    city VARCHAR2(100),
+    district VARCHAR2(100),
+    ward VARCHAR2(100)
+);
+```
+- Tạo bảng student
+```bash
+CREATE TABLE student (
+    id NUMBER PRIMARY KEY,
+    mssv VARCHAR2(50) UNIQUE,
+    name VARCHAR2(100) NOT NULL,
+    birthdate DATE,
+    class_id NUMBER REFERENCES class(class_id),
+    gpa NUMBER(3,2),
+    email VARCHAR2(100),
+    phone VARCHAR2(20),
+    address_id NUMBER REFERENCES address(address_id),
+    status VARCHAR2(50)
+);
+```
 
 #### Bước 5: Cấu hình kết nối database
 - Chỉnh sửa file DBConnection.java:  
