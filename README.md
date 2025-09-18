@@ -19,9 +19,9 @@
 
 </div>
 
-## 📖 1. Giới thiệu Ứng dụng
+## 📖 1. Giới thiệu ứng dụng
 
-Ứng dụng **Quản lý Sinh viên bằng RMI** là một hệ thống phần mềm cho phép quản lý thông tin sinh viên một cách tập trung và hiệu quả thông qua kiến trúc phân tán sử dụng Java RMI (Remote Method Invocation). Hệ thống bao gồm một máy chủ (Server) cung cấp các dịch vụ quản lý sinh viên và một máy khách (Client) với giao diện đồ họa (GUI) giúp người dùng tương tác trực quan.
+Ứng dụng **Quản lý sinh viên bằng RMI** là một hệ thống phần mềm cho phép quản lý thông tin sinh viên một cách tập trung và hiệu quả thông qua kiến trúc phân tán sử dụng Java RMI (Remote Method Invocation). Hệ thống bao gồm một máy chủ (Server) cung cấp các dịch vụ quản lý sinh viên và một máy khách (Client) với giao diện đồ họa (GUI) giúp người dùng tương tác trực quan.
 
 **✨ Tính năng chính**
 - ➕ Thêm sinh viên - Cho phép thêm sinh viên mới vào hệ thống
