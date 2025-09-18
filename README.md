@@ -82,8 +82,8 @@
 3. Thiết lập mật khẩu cho system user
 
 #### Bước 3: Clone mã nguồn
-git clone https://github.com/your-repo/student-management-rmi.git  
-cd student-management-rmi
+- git clone https://github.com/your-repo/student-management-rmi.git  
+- cd student-management-rmi
 
 #### Bước 4: Cấu hình cơ sở dữ liệu
 1. Kết nối đến Oracle bằng SQLPlus
@@ -97,10 +97,10 @@ String password = "your_password";
 
 #### Bước 6: Chạy ứng dụng
 1. Khởi động Server:  
-cd src
-java Server.Server
+- cd src
+- java Server.Server
 2. Khởi động Client:  
-java Client.StudentManagementGUI
+- java Client.StudentManagementGUI
 
 ## 5. 📞Liên hệ
 
