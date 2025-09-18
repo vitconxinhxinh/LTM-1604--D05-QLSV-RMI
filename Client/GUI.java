@@ -1,12 +1,14 @@
 package Client;
 
-import dao.StudentDAO;
 import model.Student;
+import rmi.IStudentService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 public class GUI extends JFrame {
     private JTable table;
     private DefaultTableModel model;
-    private StudentDAO studentDAO = new StudentDAO();
+    private IStudentService studentService; // Sử dụng RMI service thay vì DAO
 
     private JTextField tfSearch;
     private JButton btnSearch;
@@ -25,6 +27,16 @@ public class GUI extends JFrame {
         setSize(1250, 550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        // Khởi tạo kết nối RMI
+        try {
+            studentService = (IStudentService) Naming.lookup("rmi://localhost:1099/StudentService");
+            System.out.println("Connected to RMI Service");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối RMI: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         // ===== TABLE =====
         String[] columnNames = {"ID", "MSSV", "Tên", "Ngày sinh", "Lớp",
@@ -91,8 +103,12 @@ public class GUI extends JFrame {
             int row = table.getSelectedRow();
             if (row >= 0) {
                 int id = (int) model.getValueAt(row, 0);
-                Student s = studentDAO.getStudentById(id);
-                openStudentDialog(s);
+                try {
+                    Student s = studentService.getStudentById(id);
+                    openStudentDialog(s);
+                } catch (RemoteException ex) {
+                    JOptionPane.showMessageDialog(this, "Lỗi kết nối: " + ex.getMessage());
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Chọn 1 sinh viên để sửa!");
             }
@@ -103,8 +119,13 @@ public class GUI extends JFrame {
                 int id = (int) model.getValueAt(row, 0);
                 int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    studentDAO.deleteStudent(id);
-                    loadData();
+                    try {
+                        studentService.deleteStudent(id);
+                        loadData();
+                        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(this, "Lỗi kết nối: " + ex.getMessage());
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Chọn 1 sinh viên để xóa!");
@@ -116,31 +137,35 @@ public class GUI extends JFrame {
 
     // ===== LOAD DATA =====
     private void loadData() {
-        model.setRowCount(0);
-        List<Student> list = studentDAO.getAllStudents();
+        try {
+            model.setRowCount(0);
+            List<Student> list = studentService.getAllStudents();
 
-        list = list.stream()
-                .sorted(Comparator.comparingInt(Student::getId))
-                .collect(Collectors.toList());
+            list = list.stream()
+                    .sorted(Comparator.comparingInt(Student::getId))
+                    .collect(Collectors.toList());
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
-        for (Student s : list) {
-            Object[] row = {
-                    s.getId(),
-                    s.getMssv(),
-                    s.getName(),
-                    s.getBirthdate() != null ? df.format(s.getBirthdate()) : "",
-                    s.getClassName(),
-                    s.getGpa(),
-                    s.getStatus(),
-                    s.getEmail(),
-                    s.getPhone(),
-                    (s.getAddressDetail() != null && !s.getAddressDetail().isEmpty()) ? s.getAddressDetail().split(" - ")[2] : "",
-                    (s.getAddressDetail() != null && !s.getAddressDetail().isEmpty()) ? s.getAddressDetail().split(" - ")[1] : "",
-                    (s.getAddressDetail() != null && !s.getAddressDetail().isEmpty()) ? s.getAddressDetail().split(" - ")[0] : ""
-            };
-            model.addRow(row);
+            for (Student s : list) {
+                Object[] row = {
+                        s.getId(),
+                        s.getMssv(),
+                        s.getName(),
+                        s.getBirthdate() != null ? df.format(s.getBirthdate()) : "",
+                        s.getClassName(),
+                        s.getGpa(),
+                        s.getStatus(),
+                        s.getEmail(),
+                        s.getPhone(),
+                        s.getCity(),
+                        s.getDistrict(),
+                        s.getWard()
+                };
+                model.addRow(row);
+            }
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối server: " + e.getMessage());
         }
     }
 
@@ -152,33 +177,37 @@ public class GUI extends JFrame {
             return;
         }
 
-        model.setRowCount(0);
-        List<Student> list = studentDAO.getAllStudents();
+        try {
+            model.setRowCount(0);
+            List<Student> list = studentService.getAllStudents();
 
-        List<Student> filtered = list.stream()
-                .filter(s -> s.getMssv().toLowerCase().contains(keyword) ||
-                        s.getName().toLowerCase().contains(keyword))
-                .sorted(Comparator.comparingInt(Student::getId))
-                .collect(Collectors.toList());
+            List<Student> filtered = list.stream()
+                    .filter(s -> (s.getMssv() != null && s.getMssv().toLowerCase().contains(keyword)) ||
+                            (s.getName() != null && s.getName().toLowerCase().contains(keyword)))
+                    .sorted(Comparator.comparingInt(Student::getId))
+                    .collect(Collectors.toList());
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
-        for (Student s : filtered) {
-            Object[] row = {
-                    s.getId(),
-                    s.getMssv(),
-                    s.getName(),
-                    s.getBirthdate() != null ? df.format(s.getBirthdate()) : "",
-                    s.getClassName(),
-                    s.getGpa(),
-                    s.getStatus(),
-                    s.getEmail(),
-                    s.getPhone(),
-                    (s.getAddressDetail() != null && !s.getAddressDetail().isEmpty()) ? s.getAddressDetail().split(" - ")[2] : "",
-                    (s.getAddressDetail() != null && !s.getAddressDetail().isEmpty()) ? s.getAddressDetail().split(" - ")[1] : "",
-                    (s.getAddressDetail() != null && !s.getAddressDetail().isEmpty()) ? s.getAddressDetail().split(" - ")[0] : ""
-            };
-            model.addRow(row);
+            for (Student s : filtered) {
+                Object[] row = {
+                        s.getId(),
+                        s.getMssv(),
+                        s.getName(),
+                        s.getBirthdate() != null ? df.format(s.getBirthdate()) : "",
+                        s.getClassName(),
+                        s.getGpa(),
+                        s.getStatus(),
+                        s.getEmail(),
+                        s.getPhone(),
+                        s.getCity(),
+                        s.getDistrict(),
+                        s.getWard()
+                };
+                model.addRow(row);
+            }
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối server: " + e.getMessage());
         }
     }
 
@@ -215,10 +244,29 @@ public class GUI extends JFrame {
         JTextField tfEmail = new JTextField(student != null ? student.getEmail() : "");
         JTextField tfPhone = new JTextField(student != null ? student.getPhone() : "");
 
-        JComboBox<String> cbClass = new JComboBox<>(new String[]{"Công nghệ thông tin 1", "Công nghệ thông tin 2"});
-        JComboBox<String> cbCity = new JComboBox<>(new String[]{"Hà Nội", "TP.HCM"});
-        JComboBox<String> cbDistrict = new JComboBox<>(new String[]{"Cầu Giấy", "Quận 1"});
-        JComboBox<String> cbWard = new JComboBox<>(new String[]{"Dịch Vọng", "Bến Nghé"});
+        // Lấy danh sách lớp và địa chỉ từ database (cần thêm phương thức trong IStudentService)
+        JComboBox<String> cbClass = new JComboBox<>();
+        JComboBox<String> cbCity = new JComboBox<>();
+        JComboBox<String> cbDistrict = new JComboBox<>();
+        JComboBox<String> cbWard = new JComboBox<>();
+
+        // Tạm thời sử dụng giá trị mặc định
+        cbClass.addItem("Công nghệ thông tin 1");
+        cbClass.addItem("Công nghệ thông tin 2");
+        cbCity.addItem("Hà Nội");
+        cbCity.addItem("TP.HCM");
+        cbDistrict.addItem("Cầu Giấy");
+        cbDistrict.addItem("Quận 1");
+        cbWard.addItem("Dịch Vọng");
+        cbWard.addItem("Bến Nghé");
+
+        if (student != null) {
+            // Set selected values for existing student
+            if (student.getClassName() != null) cbClass.setSelectedItem(student.getClassName());
+            if (student.getCity() != null) cbCity.setSelectedItem(student.getCity());
+            if (student.getDistrict() != null) cbDistrict.setSelectedItem(student.getDistrict());
+            if (student.getWard() != null) cbWard.setSelectedItem(student.getWard());
+        }
 
         dialog.add(new JLabel("MSSV:")); dialog.add(tfMssv);
         dialog.add(new JLabel("Tên:")); dialog.add(tfName);
@@ -251,18 +299,24 @@ public class GUI extends JFrame {
                 java.sql.Date birthdate = java.sql.Date.valueOf(year + "-" + month + "-" + day);
 
                 if (student == null) {
-                    Student s = new Student();
-                    s.setMssv(tfMssv.getText());
-                    s.setName(tfName.getText());
-                    s.setBirthdate(birthdate);
-                    s.setGpa(Double.parseDouble(tfGpa.getText()));
-                    s.setStatus(cbStatus.getSelectedItem().toString());
-                    s.setEmail(tfEmail.getText());
-                    s.setPhone(tfPhone.getText());
-                    s.setClassId(cbClass.getSelectedIndex() + 1);
-                    s.setAddressId(cbWard.getSelectedIndex() + 1);
-                    studentDAO.addStudent(s);
+                    // Thêm mới
+                    Student newStudent = new Student();
+                    newStudent.setMssv(tfMssv.getText());
+                    newStudent.setName(tfName.getText());
+                    newStudent.setBirthdate(birthdate);
+                    newStudent.setGpa(Double.parseDouble(tfGpa.getText()));
+                    newStudent.setStatus(cbStatus.getSelectedItem().toString());
+                    newStudent.setEmail(tfEmail.getText());
+                    newStudent.setPhone(tfPhone.getText());
+                    
+                    // Cần thêm logic để lấy classId và addressId từ combobox
+                    newStudent.setClassId(cbClass.getSelectedIndex() + 1);
+                    newStudent.setAddressId(cbWard.getSelectedIndex() + 1);
+                    
+                    studentService.addStudent(newStudent);
+                    JOptionPane.showMessageDialog(dialog, "Thêm thành công!");
                 } else {
+                    // Cập nhật
                     student.setMssv(tfMssv.getText());
                     student.setName(tfName.getText());
                     student.setBirthdate(birthdate);
@@ -272,12 +326,15 @@ public class GUI extends JFrame {
                     student.setPhone(tfPhone.getText());
                     student.setClassId(cbClass.getSelectedIndex() + 1);
                     student.setAddressId(cbWard.getSelectedIndex() + 1);
-                    studentDAO.updateStudent(student);
+                    
+                    studentService.updateStudent(student);
+                    JOptionPane.showMessageDialog(dialog, "Cập nhật thành công!");
                 }
                 loadData();
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, "Lỗi: " + ex.getMessage());
+                ex.printStackTrace();
             }
         });
 
