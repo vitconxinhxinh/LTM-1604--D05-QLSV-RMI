@@ -13,13 +13,8 @@ public class DBConnection {
                 // Nạp driver Oracle JDBC
                 Class.forName("oracle.jdbc.driver.OracleDriver");
 
-                // Chuỗi kết nối (sửa lại cho đúng máy bạn)
-                //Nếu dùng SID
                 String url = "jdbc:oracle:thin:@localhost:1521:orcl";
                 
-                // Nếu dùng Service Name (thường gặp khi cài Oracle 19c+)
-                //String url = "jdbc:oracle:thin:@localhost:1521/orclpdb"; 
-
                 // Tài khoản và mật khẩu Oracle
                 String user = "system";
                 String password = "123456";

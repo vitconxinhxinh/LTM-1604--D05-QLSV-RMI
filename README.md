@@ -42,7 +42,7 @@
 - **🔌 Kết nối cơ sở dữ liệu:** JDBC (Oracle Driver)
 - **⚙️ Công cụ phát triển:** IntelliJ IDEA / Eclipse / NetBeans
 
-## 📸 Một số hình ảnh hệ thống
+## 📸 3. Một số hình ảnh hệ thống
 
 ### 🖼️ Giao diện chính
 <img src="docs/giaodien.png" alt="" width="700"/>
@@ -53,7 +53,7 @@
 ### 🔍 Tìm kiếm sinh viên
 <img src="docs/timkiem.png" alt="" width="700"/>
 
-## 📥 3. Các bước cài đặt
+## 📥 4. Các bước cài đặt
 
 ### ⚙️ Yêu cầu hệ thống:
 - Hệ điều hành: Windows 10/11, macOS, Linux
@@ -66,11 +66,13 @@
 
 - Ổ đĩa trống: Tối thiểu 2GB
 
-### 🔧 4. Cài đặt chi tiết:
+### 🔧 Cài đặt chi tiết:
 
 #### Bước 1: Cài đặt Java JDK
-- Kiểm tra phiên bản Java:  
+- Kiểm tra phiên bản Java: 
+```bash 
     java -version
+```
 
 - Tải JDK từ website Oracle: https://www.oracle.com/java/technologies/javase-downloads.html
 
