@@ -59,6 +59,8 @@
 ### 🔍 Điểm danh
 <img src="docs/diemdanh.png" alt="" width="700"/>
 
+### ⏳ Đăng ký/ Đăng nhập, đăng ký môn học (Đang hoàn thiện)
+
 ## 📥 4. Các bước cài đặt
 
 ### ⚙️ Yêu cầu hệ thống:
@@ -220,7 +222,7 @@ java Client.MainClient
 ## 📞 5. Liên hệ
 
 Nếu có bất kỳ thắc mắc hay góp ý nào, vui lòng liên hệ:
-
+- **👤 Cá nhân:** Tạ Việt Anh
 - **📍 Địa chỉ:** Hà Đông, Hà Nội  
 - **📧 Email:** tavietanh101004@gmail.com 
 ---
