@@ -5,30 +5,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static Connection conn = null;
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+    private static final String USER = "system";
+    private static final String PASSWORD = "123456";
+    
+    static {
+        try {
+            // Nạp driver Oracle JDBC
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            System.out.println(">> Oracle JDBC Driver loaded successfully!");
+        } catch (ClassNotFoundException e) {
+            System.out.println(">> Không tìm thấy Driver Oracle!");
+            e.printStackTrace();
+        }
+    }
 
     public static Connection getConnection() {
-        if (conn == null) {
-            try {
-                // Nạp driver Oracle JDBC
-                Class.forName("oracle.jdbc.driver.OracleDriver");
-
-                String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-                
-                // Tài khoản và mật khẩu Oracle
-                String user = "system";
-                String password = "123456";
-
-                conn = DriverManager.getConnection(url, user, password);
-                System.out.println(">> Kết nối Oracle thành công!");
-            } catch (ClassNotFoundException e) {
-                System.out.println(">> Không tìm thấy Driver Oracle!");
-                e.printStackTrace();
-            } catch (SQLException e) {
-                System.out.println(">> Lỗi kết nối CSDL!");
-                e.printStackTrace();
-            }
+        try {
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println(">> Kết nối Oracle thành công!");
+            return conn;
+        } catch (SQLException e) {
+            System.out.println(">> Lỗi kết nối CSDL: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
-        return conn;
+    }
+    
+    // Phương thức kiểm tra kết nối
+    public static boolean isConnectionValid(Connection conn) {
+        if (conn == null) return false;
+        try {
+            return conn.isValid(2); // Kiểm tra trong 2 giây
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }

@@ -28,9 +28,12 @@
 - ✏️ Sửa thông tin - Cập nhật thông tin sinh viên hiện có
 - 🗑️ Xóa sinh viên - Xóa sinh viên khỏi cơ sở dữ liệu
 - 🔍 Tìm kiếm - Tìm kiếm sinh viên theo tên hoặc MSSV
+- 🔌 Điểm danh - Điểm danh sinh viên và xuất thành file excel
 - 📊 Thống kê - Hiển thị thống kê số lượng sinh viên theo trạng thái
 - 🎨 Giao diện trực quan - Tô màu phân biệt trạng thái sinh viên
 - 💾 Lưu trữ tập trung - Dữ liệu được lưu trữ trong cơ sở dữ liệu Oracle
+- 💻 Đăng ký/ Đăng nhập - Đăng ký/ Đăng nhập chia role
+- 📥 Đăng ký Môn học - Đăng ký môn học
  
 
 ## 🛠️ 2. Công nghệ sử dụng
@@ -45,13 +48,16 @@
 ## 📸 3. Một số hình ảnh hệ thống
 
 ### 🖼️ Giao diện chính
-<img src="docs/giaodien.png" alt="" width="700"/>
+<img src="docs/dssinhvien.png" alt="" width="700"/>
 
 ### ➕ Thêm sinh viên mới
 <img src="docs/themsinhvien.png" alt="" width="500"/>
 
-### 🔍 Tìm kiếm sinh viên
-<img src="docs/timkiem.png" alt="" width="700"/>
+### ✏️ Sửa thông tin sinh viên 
+<img src="docs/suasinhvien.png" alt="" width="500"/>
+
+### 🔍 Điểm danh
+<img src="docs/diemdanh.png" alt="" width="700"/>
 
 ## 📥 4. Các bước cài đặt
 
@@ -93,37 +99,98 @@ cd student-management-rmi
 #### Bước 4: Cấu hình cơ sở dữ liệu
 1. Kết nối đến Oracle bằng SQLPlus
 2. Chạy script tạo bảng
-- Tạo bảng class
+- Tạo bảng KHOA
 ```bash
-CREATE TABLE class (
-    class_id NUMBER PRIMARY KEY,
-    class_name VARCHAR2(100) NOT NULL
+CREATE TABLE KHOA (
+    MAKHOA VARCHAR2(10) NOT NULL PRIMARY KEY,
+    TENKHOA VARCHAR2(100) NOT NULL
 );
 ```
-- Tạo bảng address
+- Tạo bảng LOP
 ```bash
-CREATE TABLE address (
-    address_id NUMBER PRIMARY KEY,
-    city VARCHAR2(100),
-    district VARCHAR2(100),
-    ward VARCHAR2(100)
+CREATE TABLE LOP (
+    MALOP VARCHAR2(10) NOT NULL PRIMARY KEY,
+    TENLOP VARCHAR2(100) NOT NULL,
+    MAKHOA VARCHAR2(10) NOT NULL,
+    CONSTRAINT fk_lop_khoa FOREIGN KEY (MAKHOA)
+        REFERENCES KHOA(MAKHOA)
 );
 ```
-- Tạo bảng student
+- Tạo bảng MON
 ```bash
-CREATE TABLE student (
-    id NUMBER PRIMARY KEY,
-    mssv VARCHAR2(50) UNIQUE,
-    name VARCHAR2(100) NOT NULL,
-    birthdate DATE,
-    class_id NUMBER REFERENCES class(class_id),
-    gpa NUMBER(3,2),
-    email VARCHAR2(100),
-    phone VARCHAR2(20),
-    address_id NUMBER REFERENCES address(address_id),
-    status VARCHAR2(50)
+CREATE TABLE MONHOC (
+    MAMH VARCHAR2(10) NOT NULL PRIMARY KEY,
+    TENMH VARCHAR2(100) NOT NULL,
+    SOTINCHI NUMBER NOT NULL
 );
 ```
+- Tạo bảng DIEM
+```bash
+CREATE TABLE DIEM (
+    MASV VARCHAR2(10) NOT NULL,
+    MAMH VARCHAR2(10) NOT NULL,
+    DIEMQT NUMBER(5,2),
+    DIEMCK NUMBER(5,2),
+    DIEMTK NUMBER(5,2),
+    CONSTRAINT pk_diem PRIMARY KEY (MASV, MAMH),
+    CONSTRAINT fk_diem_sv FOREIGN KEY (MASV)
+        REFERENCES SINHVIEN(MASV),
+    CONSTRAINT fk_diem_mh FOREIGN KEY (MAMH)
+        REFERENCES MONHOC(MAMH)
+);
+```
+- Tạo bảng DIEMDANH
+```bash
+CREATE TABLE DIEMDANH (
+    ID NUMBER NOT NULL PRIMARY KEY,
+    MASV VARCHAR2(10) NOT NULL,
+    NGAY DATE NOT NULL,
+    TRANGTHAI CHAR(1),
+    CONSTRAINT fk_nghi_sv FOREIGN KEY (MASV)
+        REFERENCES SINHVIEN(MASV)
+);
+```
+
+- Tạo bảng TINH
+```bash
+CREATE TABLE TINH (
+    MATINH VARCHAR2(5) NOT NULL PRIMARY KEY,
+    TENTINH VARCHAR2(100) NOT NULL
+);
+```
+- Tạo bảng SINHVIEN
+```bash
+CREATE TABLE SINHVIEN (
+    MASV VARCHAR2(10) NOT NULL PRIMARY KEY,
+    HOTEN VARCHAR2(100) NOT NULL,
+    TUOI NUMBER(3),
+    EMAIL VARCHAR2(100),
+    GIOITINH CHAR(1),
+    SDT VARCHAR2(15),
+    MATINH VARCHAR2(5),
+    MALOP VARCHAR2(10) NOT NULL,
+    MAKHOA VARCHAR2(10) NOT NULL,
+    CONSTRAINT fk_sv_lop FOREIGN KEY (MALOP)
+        REFERENCES LOP(MALOP),
+    CONSTRAINT fk_sv_khoa FOREIGN KEY (MAKHOA)
+        REFERENCES KHOA(MAKHOA),
+    CONSTRAINT fk_sv_tinh FOREIGN KEY (MATINH)
+        REFERENCES TINH(MATINH)
+);
+```
+- Tạo bảng TAIKHOAN
+```bash
+CREATE TABLE APPUSER (
+    USERNAME VARCHAR2(50) NOT NULL PRIMARY KEY,
+    PASSWORD VARCHAR2(255) NOT NULL,
+    ROLE VARCHAR2(20),
+    MASV VARCHAR2(10),
+    CONSTRAINT fk_user_sv FOREIGN KEY (MASV)
+        REFERENCES SINHVIEN(MASV)
+);
+```
+- Biểu đổ ERD  
+<img src="docs/erd.png" alt="" width="700"/>
 
 #### Bước 5: Cấu hình kết nối database
 - Chỉnh sửa file DBConnection.java:  
@@ -147,7 +214,7 @@ java Server.Server
 ```
 2. Khởi động Client:  
 ```bash
-java Client.StudentManagementGUI
+java Client.MainClient
 ```
 
 ## 📞 5. Liên hệ
@@ -156,8 +223,6 @@ Nếu có bất kỳ thắc mắc hay góp ý nào, vui lòng liên hệ:
 
 - **📍 Địa chỉ:** Hà Đông, Hà Nội  
 - **📧 Email:** tavietanh101004@gmail.com 
-- **📞 Điện thoại:** 0814206285
-
 ---
 
 © 2023 - Khoa Công nghệ Thông tin - Đại học Đại Nam 
