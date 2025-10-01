@@ -15,11 +15,11 @@ public class TinhDAO {
     public List<String> getAllTinh() {
         List<String> list = new ArrayList<>();
         try {
-            String sql = "SELECT matinh || ' - ' || tentinh AS tinh FROM tinh ORDER BY matinh";
+            String sql = "SELECT tentinh FROM tinh ORDER BY matinh";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                list.add(rs.getString("tinh"));
+                list.add(rs.getString("tentinh"));
             }
             rs.close();
             st.close();

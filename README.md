@@ -33,7 +33,6 @@
 - 🎨 Giao diện trực quan - Tô màu phân biệt trạng thái sinh viên
 - 💾 Lưu trữ tập trung - Dữ liệu được lưu trữ trong cơ sở dữ liệu Oracle
 - 💻 Đăng ký/ Đăng nhập - Đăng ký/ Đăng nhập chia role
-- 📥 Đăng ký Môn học - Đăng ký môn học
  
 
 ## 🛠️ 2. Công nghệ sử dụng
@@ -47,19 +46,32 @@
 
 ## 📸 3. Một số hình ảnh hệ thống
 
-### 🖼️ Giao diện chính
-<img src="docs/dssinhvien.png" alt="" width="700"/>
+### 🖼️ Giao diện đăng ký
+<img src="docs/dangky.png" alt="" width="700"/>
+
+### 🖼️ Giao diện đăng nhập
+<img src="docs/dangnhap.png" alt="" width="700"/>
+
+### 🖼️ Giao diện tab Sinh viên
+<img src="docs/tabsinhvien.png" alt="" width="700"/>
 
 ### ➕ Thêm sinh viên mới
-<img src="docs/themsinhvien.png" alt="" width="500"/>
+<img src="docs/themsinhvien.png" alt="" width="700"/>
 
 ### ✏️ Sửa thông tin sinh viên 
-<img src="docs/suasinhvien.png" alt="" width="500"/>
+<img src="docs/suasinhvien.png" alt="" width="700"/>
 
-### 🔍 Điểm danh
-<img src="docs/diemdanh.png" alt="" width="700"/>
+### 🔍 Giao diện tab Điểm danh
+<img src="docs/tabdiemdanh.png" alt="" width="700"/>
 
-### ⏳ Đăng ký/ Đăng nhập, đăng ký môn học (Đang hoàn thiện)
+### 🔍 Giao diện tab Quản lý điểm
+<img src="docs/tabquanlydiem.png" alt="" width="700"/>
+
+### 🔍 Giao diện tab Thông tin cá nhân
+<img src="docs/tabthongtincanhan.png" alt="" width="700"/>
+
+### 🔍 Giao diện tab Thông tin chuyên cần
+<img src="docs/tabthongtinchuyencan.png" alt="" width="700"/>
 
 ## 📥 4. Các bước cài đặt
 
