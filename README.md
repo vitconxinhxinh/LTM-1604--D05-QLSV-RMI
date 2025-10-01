@@ -50,7 +50,7 @@
 <img src="docs/dangky.png" alt="" width="700"/>
 
 ### 🖼️ Giao diện đăng nhập
-<img src="docs/dangnhap.png" alt="" width="700"/>
+<img src="docs/dangnhapp.png" alt="" width="700"/>
 
 ### 🖼️ Giao diện tab Sinh viên
 <img src="docs/tabsinhvien.png" alt="" width="700"/>
@@ -238,5 +238,6 @@ Nếu có bất kỳ thắc mắc hay góp ý nào, vui lòng liên hệ:
 - **📍 Địa chỉ:** Hà Đông, Hà Nội  
 - **📧 Email:** tavietanh101004@gmail.com 
 ---
+
 
 © 2023 - Khoa Công nghệ Thông tin - Đại học Đại Nam 
