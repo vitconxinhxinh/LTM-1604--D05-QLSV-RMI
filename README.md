@@ -49,10 +49,10 @@
 ### 🖼️ Giao diện đăng ký
 <img src="docs/dangky.png" alt="" width="700"/>
 
-### 🖼️ Giao diện đăng nhập
+### 👤 Giao diện đăng nhập
 <img src="docs/dangnhapp.png" alt="" width="700"/>
 
-### 🖼️ Giao diện tab Sinh viên
+### 🌐 Giao diện tab Sinh viên
 <img src="docs/tabsinhvien.png" alt="" width="700"/>
 
 ### ➕ Thêm sinh viên mới
@@ -61,16 +61,16 @@
 ### ✏️ Sửa thông tin sinh viên 
 <img src="docs/suasinhvien.png" alt="" width="700"/>
 
-### 🔍 Giao diện tab Điểm danh
+### 🗃️ Giao diện tab Điểm danh
 <img src="docs/tabdiemdanh.png" alt="" width="700"/>
 
-### 🔍 Giao diện tab Quản lý điểm
+### 📥 Giao diện tab Quản lý điểm
 <img src="docs/tabquanlydiem.png" alt="" width="700"/>
 
-### 🔍 Giao diện tab Thông tin cá nhân
+### 💻 Giao diện tab Thông tin cá nhân
 <img src="docs/tabthongtincanhan.png" alt="" width="700"/>
 
-### 🔍 Giao diện tab Thông tin chuyên cần
+### 📊 Giao diện tab Thông tin chuyên cần
 <img src="docs/tabthongtinchuyencan.png" alt="" width="700"/>
 
 ## 📥 4. Các bước cài đặt
@@ -203,6 +203,24 @@ CREATE TABLE APPUSER (
         REFERENCES SINHVIEN(MASV)
 );
 ```
+
+- Tạo bảng GIAOVIEN
+```bash
+CREATE TABLE GIAOVIEN (
+    MAGV VARCHAR2(10) NOT NULL PRIMARY KEY,
+    HOTEN VARCHAR2(100) NOT NULL,
+    TUOI NUMBER(3),
+    EMAIL VARCHAR2(100),
+    GIOITINH CHAR(1),
+    SDT VARCHAR2(15),
+    MATINH VARCHAR2(5),
+    MAKHOA VARCHAR2(10) NOT NULL,
+    CONSTRAINT fk_sv_khoa FOREIGN KEY (MAKHOA)
+        REFERENCES KHOA(MAKHOA),
+    CONSTRAINT fk_sv_tinh FOREIGN KEY (MATINH)
+        REFERENCES TINH(MATINH)
+);
+```
 - Biểu đổ ERD  
 <img src="docs/erd.png" alt="" width="700"/>
 
@@ -238,6 +256,5 @@ Nếu có bất kỳ thắc mắc hay góp ý nào, vui lòng liên hệ:
 - **📍 Địa chỉ:** Hà Đông, Hà Nội  
 - **📧 Email:** tavietanh101004@gmail.com 
 ---
-
 
 © 2023 - Khoa Công nghệ Thông tin - Đại học Đại Nam 
